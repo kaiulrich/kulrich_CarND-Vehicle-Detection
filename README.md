@@ -1,15 +1,6 @@
 
 #Vehicle Detection Project#
 
-#### The goals / steps of this project are the following:
-
-* Perform a Histogram of Oriented Gradients (HOG) feature extraction on a labeled training set of images and train a classifier Linear SVM classifier
-* Optionally, you can also apply a color transform and append binned color features, as well as histograms of color, to your HOG feature vector. 
-* Note: for those first two steps don't forget to normalize your features and randomize a selection for training and testing.
-* Implement a sliding-window technique and use your trained classifier to search for vehicles in images.
-* Run your pipeline on a video stream (start with the test_video.mp4 and later implement on full project_video.mp4) and create a heat map of recurring detections frame by frame to reject outliers and follow detected vehicles.
-* Estimate a bounding box for vehicles detected.
-
 [//]: # (Image References)
 [training_data]: ./output_images/training_data.png
 [bin_spatial]: ./output_images/bin_spatial.png
@@ -20,6 +11,17 @@
 [image_labeled]: ./output_images/image_labeled.png
 [pipline]: ./output_images/pipline.png
 [video1]: ./project_video.mp4
+
+#### The goals / steps of this project are the following:
+
+* Perform a Histogram of Oriented Gradients (HOG) feature extraction on a labeled training set of images and train a classifier Linear SVM classifier
+* Optionally, you can also apply a color transform and append binned color features, as well as histograms of color, to your HOG feature vector. 
+* Note: for those first two steps don't forget to normalize your features and randomize a selection for training and testing.
+* Implement a sliding-window technique and use your trained classifier to search for vehicles in images.
+* Run your pipeline on a video stream (start with the test_video.mp4 and later implement on full project_video.mp4) and create a heat map of recurring detections frame by frame to reject outliers and follow detected vehicles.
+* Estimate a bounding box for vehicles detected.
+
+
 
 ---
 ## 1. Data Exploration
@@ -56,6 +58,8 @@ Here is an example of a combination of spatial, color histogram and HOG features
 
 ![alt text][features_extraction]
 
+---
+
 
 ## 3. Training a classifier
 
@@ -79,6 +83,8 @@ I was able to consistently achieve accuracy of about 98-99,9%.
 | linear | 5 | 9 | 8 | 1 |X|X|  YCrCb | 0.993
 | linear | 1 | 9 | 8 | 1 |X|X|  YCrCb | 0.991
 
+---
+
 
 ## 4. Sliding Window Search
 
@@ -92,6 +98,8 @@ The method combines HOG feature extraction with a sliding window search, but rat
 
 ![alt text][image_labeled]
 
+---
+
 ## 5.  Filter for false positives - Heatmap and Threshold and Labeling
 
 Because a true positive is typically accompanied by several positive detections (see Boxed), while false positives are typically accompanied by only one or two detections, a combined heatmap and threshold is used to differentiate the two. The  `add_heat`(see notebook Chapter 5.1 'Heatmap') function increments the pixel value of an all-black image the size of the original image at the location of each detection rectangle. Areas encompassed by more overlapping rectangles are assigned higher levels of heat. 
@@ -102,10 +110,15 @@ The following image shows the pipline on the test images:
 
 ![alt text][pipline]
 
+---
+
 ## 6. Select Final Training Parameter 
 
 
-
+| Kernel | C | Orient | Pixels/Cell | Cell/ Block | Color|Spatial|Histogram| Fals Positive | False Negative | Time 
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| rbf | 5 | 9 | 8 | 2 |X|X| YCrCb|||
+|rbf | 1 | 9 | 8 | 2 |X|X|  YCrCb|||
 
 
 
