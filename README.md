@@ -159,9 +159,9 @@ The linear SVC with a C=5 did the relativly best result if you see the the proze
 
 HOG Features is a very strong technic to to extract shape informations from a image. In the combination with color features it extractes prity unique characteristic of an images.
 
-The classifer is an other importend factor. On one hand it has has to give good enought predictions to find a car on an image. On the otherhand it has to be quick enought to be able to prozzes images in "realtime". So it cold be better to improve the quicker Linear SVC approach and reduse the false positive findings.
+The classifer is an other importend factor. On one hand it has has to give good enought predictions to find a car on an image. On the other hand it has to be quick enought to be able to proccess images in "realtime". In this case it could be better to improve the quicker Linear SVC approach and reduse the false positive findings.
 
-To improve the quality of the Linear SVC and reduce the false positiv findings I would try to reduce the area to search in. It could be done by reducing the sliding window search area to the right lane of the street. 
+To improve the quality of the Linear SVC and reduce the false positiv findings I would try to reduce the area to search in. It could be done by reducing the sliding window search area to the right lane of the street 
 
 I took some time to find other classifer to do the work of car detection. It could be worth to look an Neuronal Networks like [yolo or  SSD](https://github.com/weiliu89/caffe/tree/ssd) . A NN approach seam to be a lot faster than a SVC approach. An other advantage is, that there is no **serial** seperate feature extraction. An NN like yolo does all in one.
  
