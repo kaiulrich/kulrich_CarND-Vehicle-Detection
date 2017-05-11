@@ -68,7 +68,7 @@ First I extracted the features from the Udacity training sets of vehicles and no
 Than I try to find a SVC via `RandomizedSearchCV {'kernel':('linear', 'rbf'), 'C':[1, 5]}` and `GridSearchCV{'kernel':('linear', 'rbf'), 'C':[1, 5]}`}). 
 Aditionally I choosed `LinearSVC ( {'C':[1, 5]} )` 
 
-I was able to consistently achieve accuracy of about 98-99,9%.
+I was able to consistently achieve accuracy of about 98-99,7%.
 
 
 | Kernel | C | Orient | Pixels/Cell | Cell/ Block |Spatial|Histogram|Color| Accuracy | 
@@ -127,9 +127,10 @@ I choosed following prozess pipeline (see notebook chapter 6.1 "Prozess pipeline
 
 ### 2. Select Final Training Parameter 
 
-To figure out a good set of training parameters I choosed diffret SVC, Colorspaces, p
+To figure out a good set of training parameters I choosed different SVC, Colorspaces, Spatial and Histogram features,  HOG cells per block. To catch the quality I counted the numbers of false positive and the amount of time they where shown. I also messuerd the time of false negative detections. An took messured the time one frame is prozessed.
 
-| Kernel | C | Orient | Pixels/Cell | Cell/ Block | Color|Spatial|Histogram| False Positive | False Negative | Time per Frame
+| Kernel | C | Orient | Pixels/Cell | Donnerstag, 11. Mai 2017 02:14 
+ | Color|Spatial|Histogram| False Positive | False Negative | Time per Frame
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 |rbf | 5 | 9 | 8 | 2 |X|X| YCrCb| 7 < 1s  | < 1s | 9.48 s
 | linear | 5 | 9 | 8 | 2 |X|X|  YCrCb |22 < 1s| 1-2 s | 0.81 s 
