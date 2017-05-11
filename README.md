@@ -127,6 +127,8 @@ I choosed following prozess pipeline (see notebook chapter 6.1 "Prozess pipeline
 
 ### 2. Select Final Training Parameter 
 
+To figure out a good set of training parameters I choosed diffret SVC, Colorspaces, p
+
 | Kernel | C | Orient | Pixels/Cell | Cell/ Block | Color|Spatial|Histogram| False Positive | False Negative | Time per Frame
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 |rbf | 5 | 9 | 8 | 2 |X|X| YCrCb| 7 < 1s  | < 1s | 9.48 s
@@ -161,7 +163,8 @@ HOG Features is a very strong technic to to extract shape informations from a im
 
 The classifer is an other importend factor. On one hand it has has to give good enought predictions to find a car on an image. On the other hand it has to be quick enought to be able to proccess images in "realtime". In this case it could be better to improve the quicker Linear SVC approach and reduse the false positive findings.
 
-To improve the quality of the Linear SVC and reduce the false positiv findings I would try to reduce the area to search in. It could be done by reducing the sliding window search area to the right lane of the street 
+To improve the quality of the Linear SVC and reduce the false positiv findings I would try to reduce the area to search in. It could be done by reducing the sliding window search area to the right lane of the street. 
+An other approach could be, to use, that (detected) cars are show by a longer sequens of folowing video frames than fals positiv detctions do. So why not searching just around the detected area for cars a view frames before searching the whole area again. This speeds up the seach and prevents short time false positives.
 
 I took some time to find other classifer to do the work of car detection. It could be worth to look an Neuronal Networks like [yolo or  SSD](https://github.com/weiliu89/caffe/tree/ssd) . A NN approach seam to be a lot faster than a SVC approach. An other advantage is, that there is no **serial** seperate feature extraction. An NN like yolo does all in one.
  
