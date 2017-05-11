@@ -1,5 +1,5 @@
 
-#Vehicle Detection Project#
+# Vehicle Detection Project
 
 [//]: # (Image References)
 [training_data]: ./output_images/training_data.png
