@@ -71,17 +71,18 @@ Aditionally I choosed `LinearSVC ( {'C':[1, 5]} )`
 I was able to consistently achieve accuracy of about 98-99,9%.
 
 
-| Kernel | C | Orient | Pixels/Cell | Cell/ Block | Color|Spatial|Histogram| Accuracy | 
+| Kernel | C | Orient | Pixels/Cell | Cell/ Block |Spatial|Histogram|Color| Accuracy | 
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| rbf | 5 | 9 | 8 | 2 |X|X| YCrCb| 0.993
-|rbf | 1 | 9 | 8 | 2 |X|X|  YCrCb| 0.991
+|rbf | 5 | 9 | 8 | 2 |X|X| YCrCb| 0.993
 | linear | 5 | 9 | 8 | 2 |X|X|  YCrCb | 0.990
 | linear | 1 | 9 | 8 | 2 |X|X|  YCrCb | 0.991
+| rbf | 5 | 9 | 8 | 2 ||X|  YCrCb| 0.9932
 | linear | 5 | 9 | 8 | 2 ||X|  YCrCb| 0.986
 | linear | 1 | 9 | 8 | 2 ||X|  YCrCb| 0.987
 | linear | 1 | 9 | 8 | 2 |X|X|  YUV | 0.991
 | linear | 5 | 9 | 8 | 1 |X|X|  YCrCb | 0.993
 | linear | 1 | 9 | 8 | 1 |X|X|  YCrCb | 0.991
+|rbf | 5| 9 | 8 | 1 |X|X|  YCrCb| 0.997
 
 ---
 
@@ -112,29 +113,58 @@ The following image shows the pipline on the test images:
 
 ---
 
-## 6. Select Final Training Parameter 
+## 6. Video Implementation
 
+### 1.  Prozess Pipline
 
-| Kernel | C | Orient | Pixels/Cell | Cell/ Block | Color|Spatial|Histogram| Fals Positive | False Negative | Time 
+I choosed following prozess pipeline (see notebook chapter 6.1 "Prozess pipeline")
+
+* Extract Features
+* Train SVC
+* Find Cars via SVC and Sliding Window Search
+* Filter for false positives via heatmap and thresholding
+* Label the findings and draw boxes
+
+### 2. Select Final Training Parameter 
+
+| Kernel | C | Orient | Pixels/Cell | Cell/ Block | Color|Spatial|Histogram| False Positive | False Negative | Time per Frame
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| rbf | 5 | 9 | 8 | 2 |X|X| YCrCb|||
-|rbf | 1 | 9 | 8 | 2 |X|X|  YCrCb|||
+|rbf | 5 | 9 | 8 | 2 |X|X| YCrCb| 7 < 1s  | < 1s | 9.48 s
+| linear | 5 | 9 | 8 | 2 |X|X|  YCrCb |22 < 1s| 1-2 s | 0.81 s 
+| linear | 1 | 9 | 8 | 2 |X|X|  YCrCb | 24 < 1s| 1-2 s | 0.85 s
+|rbf | 5 | 9 | 8 | 2 ||X| YCrCb| 5 < 1s | < 1 s | 8.27 s
+| linear | 5 | 9 | 8 | 2 ||X|  YCrCb| 36  1-2 s| 1 - 2 s | 0.77
+| linear | 1 | 9 | 8 | 2 ||X|  YCrCb| 39 1-2 s| 1 - 2s | 0.77 
+| linear | 1 | 9 | 8 | 2 |X|X|  YUV  |  30 1-2 s | 2 - 3 s| 0.70| 0.991
+| **linear** | **5** | **9** | **8** | **1** |**X**|**X**|  **YCrCb**  | **6  < 1s**|  **< 1s** | **0.76** | **0.993**
+| linear | 1 | 9 | 8 | 1 |X|X|  YCrCb  |15 < 1s| < 1s | 0.76
+|**rbf** | **5**| **9** | **8** | **1** |**X**|**X**|  **YCrCb**| **1 <0,5** | **< 0,5** |  **8.69**
 
+The best result of prozessing a frame did the rbf SVC. But the  prozess time per videoframe was by the verry slow (8.69)
+
+The linear SVC with a C=5 did the relativly best result if you see the the prozess time per videoframe. But it detects a lot of false positivs.
+
+---
+
+### 3. Video Prozessing
+
+|  RBF SVC (C=5)                 | Linear SVC (C=5)                        |
+|---------------------------|---------------------------|
+[![E](https://img.youtube.com/vi/ddSVKLMnd30/0.jpg)](https://youtu.be/ddSVKLMnd30 "RBF SVC (C=5)") | [![E](https://img.youtube.com/vi/q98BRlCPcHw/0.jpg)](https://youtu.be/q98BRlCPcHw "Linear SVC (C=5)")|
 
 
 ---
 
-### Video Implementation
+## 7. Discussion
 
-####1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
-Here's a [link to my video result](./project_video.mp4)
+HOG Features is a very strong technic to to extract shape informations from a image. In the combination with color features it extractes prity unique characteristic of an images.
 
+The classifer is an other importend factor. On one hand it has has to give good enought predictions to find a car on an image. On the otherhand it has to be quick enought to be able to prozzes images in "realtime". So it cold be better to improve the quicker Linear SVC approach and reduse the false positive findings.
 
----
+To improve the quality of the Linear SVC and reduce the false positiv findings I would try to reduce the area to search in. It could be done by reducing the sliding window search area to the right lane of the street. 
 
-###Discussion
+I took some time to find other classifer to do the work of car detection. It could be worth to look an Neuronal Networks like [yolo or  SSD](https://github.com/weiliu89/caffe/tree/ssd) . A NN approach seam to be a lot faster than a SVC approach. An other advantage is, that there is no **serial** seperate feature extraction. An NN like yolo does all in one.
+ 
+ 
 
-####1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
-
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
 
